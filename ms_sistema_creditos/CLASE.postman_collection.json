@@ -1,0 +1,503 @@
+{
+  "info": {
+    "_postman_id": "0c4f9564-ddfb-48f7-a41a-b8d9109e873c",
+    "name": "CLASE",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "17760505",
+    "_collection_link": "https://go.postman.co/collection/17760505-0c4f9564-ddfb-48f7-a41a-b8d9109e873c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Credit",
+      "item": [
+        {
+          "name": "Crear Credito",
+          "item": [
+            {
+              "name": "Crear crédito aprobado (Tasa 8%)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Credito aprobado\", function () {\r",
+                      "    pm.expect(response.approved).to.eql(true);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Estado APPROVED\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"APPROVED\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Tasa 8%\", function () {\r",
+                      "    pm.expect(response.interestRate).to.eql(8);\r",
+                      "});\r",
+                      "\r",
+                      "pm.environment.set(\"loanId\", response.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10001\",\r\n  \"age\": 35,\r\n  \"creditScore\": 850,\r\n  \"monthlyIncome\": 8000000,\r\n  \"monthlyDebt\": 2000000,\r\n  \"requestedAmount\": 30000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Crear crédito aprobado (Tasa 10%)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Tasa 10%\", function () {\r",
+                      "    pm.expect(response.interestRate).to.eql(10);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10002\",\r\n  \"age\": 30,\r\n  \"creditScore\": 750,\r\n  \"monthlyIncome\": 6000000,\r\n  \"monthlyDebt\": 1000000,\r\n  \"requestedAmount\": 20000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Crear crédito aprobado (Tasa 12%)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Status 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Tasa 12%\", function () {\r",
+                      "    pm.expect(response.interestRate).to.eql(12);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10003\",\r\n  \"age\": 25,\r\n  \"creditScore\": 650,\r\n  \"monthlyIncome\": 5000000,\r\n  \"monthlyDebt\": 1000000,\r\n  \"requestedAmount\": 15000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Menor de edad",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Error esperado\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Mensaje correcto\", function () {\r",
+                      "    pm.expect(response.rejectionReason)\r",
+                      "        .to.include(\"18\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10004\",\r\n  \"age\": 17,\r\n  \"creditScore\": 850,\r\n  \"monthlyIncome\": 8000000,\r\n  \"monthlyDebt\": 1000000,\r\n  \"requestedAmount\": 10000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Score inferior a 600",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 400\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Mensaje score\", function () {\r",
+                      "    pm.expect(response.rejectionReason)\r",
+                      "        .to.include(\"600\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10005\",\r\n  \"age\": 30,\r\n  \"creditScore\": 550,\r\n  \"monthlyIncome\": 8000000,\r\n  \"monthlyDebt\": 1000000,\r\n  \"requestedAmount\": 10000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Endeudamiento mayor al 40%",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 400\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Valida deuda\", function () {\r",
+                      "    pm.expect(response.rejectionReason)\r",
+                      "        .to.include(\"Debt ratio\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10006\",\r\n  \"age\": 30,\r\n  \"creditScore\": 750,\r\n  \"monthlyIncome\": 5000000,\r\n  \"monthlyDebt\": 2500000,\r\n  \"requestedAmount\": 10000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Monto solicitado superior al permitido",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 400\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Monto excedido\", function () {\r",
+                      "    pm.expect(response.rejectionReason)\r",
+                      "        .to.include(\"Requested amount\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10007\",\r\n  \"age\": 30,\r\n  \"creditScore\": 750,\r\n  \"monthlyIncome\": 5000000,\r\n  \"monthlyDebt\": 1000000,\r\n  \"requestedAmount\": 60000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Obtener Creditos",
+          "item": [
+            {
+              "name": "Obtener todos los créditos",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Retorna arreglo\", function () {\r",
+                      "    pm.expect(response).to.be.an(\"array\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Existe al menos un registro\", function () {\r",
+                      "    pm.expect(response.length).to.be.greaterThan(0);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Obtener credito por id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Retorna el crédito consultado\", function () {\r",
+                      "    pm.expect(response.id).to.eql(1);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/api/loans/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Obtener credito por id inexistente",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 204\", function () {\r",
+                      "    pm.response.to.have.status(204);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/api/loans/9999",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans",
+                    "9999"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

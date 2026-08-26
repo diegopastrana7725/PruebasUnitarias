@@ -1,0 +1,40 @@
+configurations.configureEach {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+
+        if (details.requested.group == 'commons-beanutils'
+                && details.requested.name == 'commons-beanutils') {
+            details.useVersion "1.11.0"
+        }
+
+        if (details.requested.group == 'io.netty') {
+            details.useVersion "4.2.17.Final"
+        }
+
+        if (details.requested.group == 'org.apache.logging.log4j') {
+            details.useVersion "2.26.1"
+        }
+
+        if (details.requested.group == 'tools.jackson.core') {
+            details.useVersion('3.2.1')
+        }
+
+        if (details.requested.group == 'ch.qos.logback') {
+            details.useVersion('1.5.35')
+        }
+
+        if (details.requested.group == 'com.fasterxml.jackson.core') {
+            if (details.requested.name == 'jackson-annotations') {
+                details.useVersion('2.22')
+            }
+            else{
+                details.useVersion('2.21.5')
+            }
+        }
+        if (details.requested.group == 'com.fasterxml.jackson.datatype') {
+            details.useVersion('2.21.5')
+        }
+        if (details.requested.group == 'com.ongres.scram') {
+            details.useVersion('3.3')
+        }
+    }
+}
