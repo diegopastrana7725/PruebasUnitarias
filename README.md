@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Este repositorio contiene el material de apoyo para el taller de **Pruebas Unitarias con Spring Boot**, enfocado en la validación de lógica de negocio dentro de una arquitectura basada en principios de **Arquitectura limpia (Bancolombia)**.
+Este repositorio contiene el material de apoyo para el taller de **Pruebas Unitarias con Spring Boot**, enfocado en la validación de lógica de negocio dentro de una arquitectura basada en principios de **Arquitectura limpia (Bancolombia)** https://github.com/bancolombia/scaffold-clean-architecture.
 
 El objetivo principal es comprender cómo construir pruebas unitarias efectivas para casos de uso (Use Cases), aislando las dependencias externas mediante mocks y garantizando la validación de las reglas de negocio de forma independiente.
 
