@@ -107,7 +107,7 @@ No forma parte del alcance:
 
 ## Tecnologías Utilizadas
 
-- Java 17
+- Java 21
 - Spring Boot
 - Maven
 - JUnit 5
