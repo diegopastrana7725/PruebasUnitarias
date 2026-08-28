@@ -28,14 +28,11 @@ Contiene el material utilizado durante la sesión para explicar los conceptos fu
 
 Entre los temas abordados se encuentran:
 
-- ¿Qué son las pruebas unitarias?
-- Beneficios de automatizar pruebas.
-- Pirámide de testing.
-- Diferencia entre pruebas unitarias y pruebas de integración.
-- Introducción a Mockito.
-- Uso de mocks y stubs.
-- Buenas prácticas en pruebas unitarias.
-- Cobertura de código.
+- Introducción al testing
+- Calidad de software
+- ¿Qué es una prueba unitaria?
+- Características de una buena prueba unitaria
+- ¿Qué pasa si no hacemos pruebas?
 
 ---
 
@@ -126,7 +123,7 @@ Al finalizar el taller, el participante estará en capacidad de:
 - Validar excepciones y comportamientos esperados.
 - Verificar interacciones entre componentes.
 - Interpretar métricas de cobertura de código.
-- Aplicar buenas prácticas en ambientes empresariales basados en Spring Boot y Arquitectura Hexagonal.
+- Aplicar buenas prácticas en ambientes empresariales basados en Spring Boot y Arquitectura Limpia.
 
 ---
 
