@@ -1,0 +1,1086 @@
+{
+  "info": {
+    "_postman_id": "0c4f9564-ddfb-48f7-a41a-b8d9109e873c",
+    "name": "CLASE",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "17760505",
+    "_collection_link": "https://go.postman.co/collection/17760505-0c4f9564-ddfb-48f7-a41a-b8d9109e873c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Credit",
+      "item": [
+        {
+          "name": "Crear Credito",
+          "item": [
+            {
+              "name": "Crear crédito aprobado (Tasa 8%)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Credito aprobado\", function () {\r",
+                      "    pm.expect(response.approved).to.eql(true);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Estado APPROVED\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"APPROVED\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Tasa 8%\", function () {\r",
+                      "    pm.expect(response.interestRate).to.eql(8);\r",
+                      "});\r",
+                      "\r",
+                      "pm.environment.set(\"loanId\", response.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10001\",\r\n  \"age\": 35,\r\n  \"creditScore\": 850,\r\n  \"monthlyIncome\": 8000000,\r\n  \"monthlyDebt\": 2000000,\r\n  \"requestedAmount\": 30000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Crear crédito aprobado (Tasa 10%)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Tasa 10%\", function () {\r",
+                      "    pm.expect(response.interestRate).to.eql(10);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10002\",\r\n  \"age\": 30,\r\n  \"creditScore\": 750,\r\n  \"monthlyIncome\": 6000000,\r\n  \"monthlyDebt\": 1000000,\r\n  \"requestedAmount\": 20000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Crear crédito aprobado (Tasa 12%)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Status 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Tasa 12%\", function () {\r",
+                      "    pm.expect(response.interestRate).to.eql(12);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10003\",\r\n  \"age\": 25,\r\n  \"creditScore\": 650,\r\n  \"monthlyIncome\": 5000000,\r\n  \"monthlyDebt\": 1000000,\r\n  \"requestedAmount\": 15000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Menor de edad",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Error esperado\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Mensaje correcto\", function () {\r",
+                      "    pm.expect(response.rejectionReason)\r",
+                      "        .to.include(\"18\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10004\",\r\n  \"age\": 17,\r\n  \"creditScore\": 850,\r\n  \"monthlyIncome\": 8000000,\r\n  \"monthlyDebt\": 1000000,\r\n  \"requestedAmount\": 10000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Score inferior a 600",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 400\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Mensaje score\", function () {\r",
+                      "    pm.expect(response.rejectionReason)\r",
+                      "        .to.include(\"600\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10005\",\r\n  \"age\": 30,\r\n  \"creditScore\": 550,\r\n  \"monthlyIncome\": 8000000,\r\n  \"monthlyDebt\": 1000000,\r\n  \"requestedAmount\": 10000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Endeudamiento mayor al 40%",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 400\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Valida deuda\", function () {\r",
+                      "    pm.expect(response.rejectionReason)\r",
+                      "        .to.include(\"Debt ratio\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10006\",\r\n  \"age\": 30,\r\n  \"creditScore\": 750,\r\n  \"monthlyIncome\": 5000000,\r\n  \"monthlyDebt\": 2500000,\r\n  \"requestedAmount\": 10000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Monto solicitado superior al permitido",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 400\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Monto excedido\", function () {\r",
+                      "    pm.expect(response.rejectionReason)\r",
+                      "        .to.include(\"Requested amount\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"10007\",\r\n  \"age\": 30,\r\n  \"creditScore\": 750,\r\n  \"monthlyIncome\": 5000000,\r\n  \"monthlyDebt\": 1000000,\r\n  \"requestedAmount\": 60000000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Obtener Creditos",
+          "item": [
+            {
+              "name": "Obtener todos los créditos",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Retorna arreglo\", function () {\r",
+                      "    pm.expect(response).to.be.an(\"array\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Existe al menos un registro\", function () {\r",
+                      "    pm.expect(response.length).to.be.greaterThan(0);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/api/loans",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Obtener credito por id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Retorna el crédito consultado\", function () {\r",
+                      "    pm.expect(response.id).to.eql(1);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/api/loans/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Obtener credito por id inexistente",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 204\", function () {\r",
+                      "    pm.response.to.have.status(204);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/api/loans/9999",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "loans",
+                    "9999"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Coupons",
+      "item": [
+        {
+          "name": "ObtenerCupones",
+          "item": [
+            {
+              "name": "Obtener todos los cupones",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 200\", () => {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Es un arreglo\", () => {\r",
+                      "    pm.expect(response).to.be.an(\"array\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Tiene registros\", () => {\r",
+                      "    pm.expect(response.length).to.be.greaterThan(0);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/api/coupons",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "coupons"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Obtener cupón por id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 200\", () => {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Retorna cupón\", () => {\r",
+                      "    pm.expect(response.id).to.eql(1);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Tiene código\", () => {\r",
+                      "    pm.expect(response.code).to.not.be.null;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/api/coupons/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "coupons",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "RedimirCupones",
+          "item": [
+            {
+              "name": "Redimir Cupón Exitosamente",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status 200\", () => {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Cupón aplicado\", () => {\r",
+                      "    pm.expect(response.applied).to.eql(true);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Descuento calculado\", () => {\r",
+                      "    pm.expect(response.discountAmount).to.eql(20000);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Monto final correcto\", () => {\r",
+                      "    pm.expect(response.finalAmount).to.eql(180000);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Mensaje exitoso\", () => {\r",
+                      "    pm.expect(response.message)\r",
+                      "        .to.eql(\"Coupon applied successfully\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"1001\",\r\n  \"couponCode\": \"WELCOME10\",\r\n  \"purchaseAmount\": 200000,\r\n  \"category\": \"TECHNOLOGY\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/coupons/apply",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "coupons",
+                    "apply"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Cupón inexistente",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Cupón no aplicado\", () => {\r",
+                      "    pm.expect(response.applied).to.eql(false);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Mensaje correcto\", () => {\r",
+                      "    pm.expect(response.message)\r",
+                      "        .to.eql(\"Coupon not found\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"1001\",\r\n  \"couponCode\": \"INVALID\",\r\n  \"purchaseAmount\": 200000,\r\n  \"category\": \"TECHNOLOGY\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/coupons/apply",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "coupons",
+                    "apply"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Cupón inactivo",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Cupón rechazado\", () => {\r",
+                      "    pm.expect(response.applied).to.eql(false);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Mensaje correcto\", () => {\r",
+                      "    pm.expect(response.message)\r",
+                      "        .to.eql(\"Coupon is inactive\");\r",
+                      "});\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"1001\",\r\n  \"couponCode\": \"INACTIVE10\",\r\n  \"purchaseAmount\": 200000,\r\n  \"category\": \"TECHNOLOGY\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/coupons/apply",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "coupons",
+                    "apply"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Cupón vencido",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Cupón vencido\", () => {\r",
+                      "    pm.expect(response.applied).to.eql(false);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Mensaje correcto\", () => {\r",
+                      "    pm.expect(response.message)\r",
+                      "        .to.eql(\"Coupon has expired\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"1001\",\r\n  \"couponCode\": \"EXPIRED10\",\r\n  \"purchaseAmount\": 200000,\r\n  \"category\": \"TECHNOLOGY\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/coupons/apply",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "coupons",
+                    "apply"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Compra mínima no alcanzada",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Compra mínima invalidada\", () => {\r",
+                      "    pm.expect(response.applied).to.eql(false);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Mensaje correcto\", () => {\r",
+                      "    pm.expect(response.message)\r",
+                      "        .to.eql(\"Minimum purchase amount not reached\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"1001\",\r\n  \"couponCode\": \"WELCOME10\",\r\n  \"purchaseAmount\": 50000,\r\n  \"category\": \"TECHNOLOGY\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/coupons/apply",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "coupons",
+                    "apply"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Categoría inválida",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Categoría no permitida\", () => {\r",
+                      "    pm.expect(response.applied).to.eql(false);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Mensaje correcto\", () => {\r",
+                      "    pm.expect(response.message)\r",
+                      "        .to.eql(\"Coupon is not valid for this category\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"1001\",\r\n  \"couponCode\": \"WELCOME10\",\r\n  \"purchaseAmount\": 200000,\r\n  \"category\": \"FOOD\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/coupons/apply",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "coupons",
+                    "apply"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Límite de uso alcanzado",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Límite alcanzado\", () => {\r",
+                      "    pm.expect(response.applied).to.eql(false);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Mensaje correcto\", () => {\r",
+                      "    pm.expect(response.message)\r",
+                      "        .to.eql(\"Coupon usage limit exceeded\");\r",
+                      "});\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"1001\",\r\n  \"couponCode\": \"WELCOME0\",\r\n  \"purchaseAmount\": 200000,\r\n  \"category\": \"TECHNOLOGY\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/coupons/apply",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "coupons",
+                    "apply"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Cupón con descuento fijo",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Cupón aplicado\", () => {\r",
+                      "    pm.expect(response.applied).to.eql(true);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Descuento fijo correcto\", () => {\r",
+                      "    pm.expect(response.discountAmount).to.eql(50000);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Monto final correcto\", () => {\r",
+                      "    pm.expect(response.finalAmount).to.eql(150000);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"1001\",\r\n  \"couponCode\": \"FIXED50\",\r\n  \"purchaseAmount\": 200000,\r\n  \"category\": \"TECHNOLOGY\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/coupons/apply",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "coupons",
+                    "apply"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Descuento porcentual con tope máximo",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Cupón aplicado\", () => {\r",
+                      "    pm.expect(response.applied).to.eql(true);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Aplica tope máximo\", () => {\r",
+                      "    pm.expect(response.discountAmount).to.eql(30000);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Monto final correcto\", () => {\r",
+                      "    pm.expect(response.finalAmount).to.eql(270000);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": \"1001\",\r\n  \"couponCode\": \"TOP20\",\r\n  \"purchaseAmount\": 300000,\r\n  \"category\": \"TECHNOLOGY\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/coupons/apply",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "coupons",
+                    "apply"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
