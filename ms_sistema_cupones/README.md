@@ -1,432 +1,566 @@
-# Taller de Pruebas Unitarias con Spring Boot y Mockito
+# Taller de Pruebas Unitarias con Spring Boot - Sistema de Cupones
 
 ## Descripción General
 
-Este repositorio contiene el material práctico y teórico utilizado para la capacitación de **Pruebas Unitarias en Spring Boot**, utilizando **JUnit 5**, **Mockito** y la implementación de **Arquitectura Limpia (Clean Architecture)** basada en el scaffold oficial de Bancolombia.
+Este proyecto fue desarrollado como material práctico para la capacitación de **Pruebas Unitarias con Spring Boot**, utilizando:
 
-El objetivo principal del ejercicio es comprender cómo diseñar y construir pruebas unitarias enfocadas en la capa de negocio, aislando completamente las dependencias externas mediante el uso de mocks.
+- Java 17
+- Spring Boot
+- JUnit 5
+- Mockito
+- JaCoCo
+- H2 Database
+- Gradle
+- Clean Architecture (Scaffold Bancolombia)
 
-Durante el desarrollo del taller se construye un microservicio funcional de evaluación de créditos, persistiendo información en una base de datos local y exponiendo endpoints REST para su consulta.
+El objetivo es construir un sistema de aplicación de cupones de descuento que permita demostrar la implementación de reglas de negocio, pruebas unitarias y pruebas de API.
 
 ---
 
 # Objetivos de Aprendizaje
 
-Al finalizar este ejercicio el estudiante estará en capacidad de:
+Al finalizar este ejercicio el estudiante podrá:
 
 - Comprender qué es una prueba unitaria.
-- Identificar qué debe y qué no debe probarse mediante Unit Testing.
-- Crear pruebas utilizando JUnit 5.
-- Simular dependencias mediante Mockito.
-- Utilizar mocks y stubs.
-- Verificar interacciones con dependencias externas.
-- Validar escenarios exitosos y escenarios de error.
-- Interpretar reportes de cobertura de código mediante JaCoCo.
-- Aplicar pruebas unitarias dentro de una Arquitectura Hexagonal/Clean Architecture.
+- Aplicar JUnit 5 y Mockito.
+- Utilizar mocks para aislar dependencias.
+- Identificar escenarios de negocio.
+- Probar reglas de validación.
+- Medir cobertura de código con JaCoCo.
+- Implementar pruebas dentro de Clean Architecture.
 
 ---
 
-# Arquitectura Implementada
+# Arquitectura
 
-El proyecto utiliza el scaffold de **Clean Architecture de Bancolombia**, separando claramente las responsabilidades de cada capa.
+El proyecto fue construido utilizando el scaffold de Arquitectura Limpia de Bancolombia.
 
 ## Domain
 
-Contiene los modelos de dominio, contratos y excepciones.
+Contiene:
+
+- Modelos de negocio.
+- Puertos (Gateways).
+- Excepciones.
 
 Ejemplos:
 
-- Loan
-- LoanRequest
-- LoanRepository
-- BusinessException
+```text
+Coupon
+CouponUsage
+ApplyCouponRequest
+ApplyCouponResponse
+CouponRepository
+CouponUsageRepository
+BusinessException
+```
 
 ---
 
-## Use Cases
+## UseCases
 
-Contiene toda la lógica de negocio de la aplicación.
+Contiene la lógica de negocio.
 
-Ejemplos:
+Casos de uso implementados:
 
-- EvaluateLoanUseCase
-- GetLoansUseCase
-- GetLoanByIdUseCase
-
-Esta es la capa donde se concentra el mayor esfuerzo de pruebas unitarias.
+```text
+ApplyCouponUseCase
+GetCouponsUseCase
+GetCouponsByIdUseCase
+```
 
 ---
 
 ## Entry Points
 
-Expone la funcionalidad mediante una API REST.
-
-Ejemplo:
+Exponen la funcionalidad mediante una API REST.
 
 ```text
-POST /api/loans
-GET  /api/loans
-GET  /api/loans/{id}
+POST /api/coupons/apply
+GET  /api/coupons
+GET  /api/coupons/{id}
 ```
 
 ---
 
 ## Driven Adapters
 
-Implementan las dependencias externas.
-
-Para este ejercicio se utiliza:
+Implementan:
 
 - Spring Data JPA
-- Base de datos H2/PostgreSQL
-
-La capa de negocio nunca conoce detalles de persistencia.
+- H2 Database
 
 ---
 
 # Caso de Negocio
 
-## Sistema de Evaluación de Créditos
+Una compañía desea implementar un sistema de cupones promocionales.
 
-Una entidad financiera requiere automatizar la evaluación inicial de las solicitudes de crédito realizadas por sus clientes.
+Los clientes podrán utilizar cupones de descuento durante una compra siempre que cumplan determinadas reglas de negocio.
 
-El sistema deberá analizar la información financiera suministrada por el cliente y determinar si una solicitud debe ser aprobada o rechazada.
-
-Independientemente del resultado, la solicitud deberá almacenarse para mantener un historial de evaluaciones realizadas.
+El sistema deberá determinar si el cupón es válido y calcular el descuento correspondiente.
 
 ---
 
-# Datos de Entrada
+# Entidades Principales
 
-Cada solicitud de crédito contiene la siguiente información:
+## Coupon
 
-```json
-{
-  "customerId": "10001",
-  "age": 35,
-  "creditScore": 850,
-  "monthlyIncome": 8000000,
-  "monthlyDebt": 2000000,
-  "requestedAmount": 30000000
-}
+Representa un cupón configurable.
+
+Atributos principales:
+
+```text
+code
+discountType
+discountValue
+maxDiscount
+minimumPurchaseAmount
+category
+active
+expirationDate
+maxUsesPerCustomer
 ```
 
 ---
 
-# Datos de Salida
+## CouponUsage
 
-El sistema responde indicando el resultado de la evaluación:
+Representa cada utilización de un cupón por parte de un cliente.
 
-```json
-{
-  "id": 1,
-  "approved": true,
-  "status": "APPROVED",
-  "interestRate": 8,
-  "rejectionReason": null
-}
-```
+Permite conocer:
 
-o en caso de rechazo:
-
-```json
-{
-  "id": 2,
-  "approved": false,
-  "status": "REJECTED",
-  "interestRate": null,
-  "rejectionReason": "Customer must be at least 18 years old"
-}
-```
+- Cuántas veces fue utilizado.
+- Quién lo utilizó.
+- Cuándo fue utilizado.
 
 ---
 
 # Reglas de Negocio
 
-El caso de uso principal es **EvaluateLoanUseCase**.
+Todas las reglas son implementadas en:
 
-Durante la evaluación de una solicitud se aplican las siguientes reglas:
-
-## 1. Validación de Edad
-
-El cliente debe tener mínimo 18 años.
-
-Si el cliente es menor de edad la solicitud será rechazada.
-
----
-
-## 2. Validación de Score Crediticio
-
-El score crediticio mínimo permitido es:
-
-```text
-600 puntos
+```java
+ApplyCouponUseCase
 ```
 
-Cualquier valor inferior genera rechazo de la solicitud.
+---
+
+## Regla 1 - Existencia del Cupón
+
+El cupón debe existir en la base de datos.
+
+### Válido
+
+```text
+WELCOME10
+```
+
+### Inválido
+
+```text
+INVALID
+```
+
+Resultado:
+
+```text
+Coupon not found
+```
 
 ---
 
-## 3. Capacidad de Endeudamiento
+## Regla 2 - Cupón Activo
 
-La relación entre deudas e ingresos no puede superar el 40%.
+El cupón debe estar habilitado para ser utilizado.
 
-La fórmula utilizada es:
+### Campo
 
 ```text
-Deuda mensual / Ingreso mensual
+active = true
+```
+
+Si:
+
+```text
+active = false
+```
+
+Resultado:
+
+```text
+Coupon is inactive
+```
+
+---
+
+## Regla 3 - Vigencia
+
+El cupón no puede estar vencido.
+
+### Ejemplo válido
+
+```text
+2030-12-31
+```
+
+### Ejemplo inválido
+
+```text
+2020-01-01
+```
+
+Resultado:
+
+```text
+Coupon has expired
+```
+
+---
+
+## Regla 4 - Compra Mínima
+
+La compra debe cumplir un valor mínimo.
+
+### Cupón
+
+```text
+minimumPurchaseAmount = 100000
+```
+
+### Compra
+
+```text
+50000
+```
+
+Resultado:
+
+```text
+Minimum purchase amount not reached
+```
+
+---
+
+## Regla 5 - Categoría Permitida
+
+El cupón sólo puede utilizarse para la categoría configurada.
+
+### Cupón
+
+```text
+TECHNOLOGY
+```
+
+### Compra
+
+```text
+FOOD
+```
+
+Resultado:
+
+```text
+Coupon is not valid for this category
+```
+
+---
+
+## Regla 6 - Límite de Uso
+
+Cada cupón define cuántas veces puede ser utilizado por un mismo cliente.
+
+### Configuración
+
+```text
+maxUsesPerCustomer = 3
+```
+
+### Historial
+
+```text
+Cliente ya utilizó el cupón 3 veces
+```
+
+Resultado:
+
+```text
+Coupon usage limit exceeded
+```
+
+---
+
+## Regla 7 - Descuento Fijo
+
+Un cupón puede otorgar un valor fijo.
+
+### Configuración
+
+```text
+discountType = FIXED
+
+discountValue = 50000
+```
+
+### Compra
+
+```text
+200000
+```
+
+Resultado:
+
+```text
+Descuento: 50000
+
+Total Final: 150000
+```
+
+---
+
+## Regla 8 - Descuento Porcentual
+
+El descuento se calcula a partir del porcentaje configurado.
+
+### Configuración
+
+```text
+discountType = PERCENTAGE
+
+discountValue = 10
+```
+
+### Compra
+
+```text
+200000
+```
+
+Resultado:
+
+```text
+Descuento: 20000
+
+Total Final: 180000
+```
+
+---
+
+## Regla 9 - Tope Máximo de Descuento
+
+Un cupón porcentual puede limitar el descuento máximo otorgado.
+
+### Configuración
+
+```text
+discountValue = 20%
+
+maxDiscount = 30000
+```
+
+### Compra
+
+```text
+300000
+```
+
+Cálculo:
+
+```text
+20% de 300000 = 60000
+```
+
+Sin embargo:
+
+```text
+60000 > 30000
+```
+
+Resultado:
+
+```text
+Descuento aplicado = 30000
+```
+
+---
+
+# Flujo General
+
+```text
+Cliente
+   |
+   ▼
+Aplicar Cupón
+   |
+   ▼
+Buscar Cupón
+   |
+   ▼
+Validar:
+- Existencia
+- Estado
+- Vigencia
+- Compra mínima
+- Categoría
+- Límite de uso
+   |
+   ▼
+Calcular descuento
+   |
+   ▼
+Registrar uso
+   |
+   ▼
+Retornar resultado
+```
+
+---
+
+# Endpoints
+
+## Aplicar Cupón
+
+```http
+POST /api/coupons/apply
 ```
 
 Ejemplo:
 
-```text
-2.000.000 / 5.000.000 = 40%
+```json
+{
+  "customerId": "1001",
+  "couponCode": "WELCOME10",
+  "purchaseAmount": 200000,
+  "category": "TECHNOLOGY"
+}
+```
+
+Respuesta:
+
+```json
+{
+  "applied": true,
+  "couponCode": "WELCOME10",
+  "purchaseAmount": 200000,
+  "discountAmount": 20000,
+  "finalAmount": 180000,
+  "message": "Coupon applied successfully"
+}
 ```
 
 ---
 
-## 4. Monto Máximo Permitido
-
-El monto solicitado no puede exceder diez veces el ingreso mensual.
-
-Ejemplo:
-
-```text
-Ingreso mensual:
-5.000.000
-
-Monto máximo:
-50.000.000
-```
-
----
-
-## 5. Asignación de Tasa de Interés
-
-Cuando una solicitud es aprobada se asigna una tasa de interés según el score crediticio.
-
-```text
-Score >= 800 -> 8%
-
-Score >= 700 -> 10%
-
-Score >= 600 -> 12%
-```
-
----
-
-# Comportamiento Implementado
-
-A diferencia de otros sistemas donde una validación fallida interrumpe el flujo mediante excepciones, este ejercicio registra tanto créditos aprobados como rechazados.
-
-Cuando una regla falla:
-
-- El crédito es marcado como REJECTED.
-- Se almacena el motivo del rechazo.
-- El registro se persiste en base de datos.
-
-Esto permite mantener trazabilidad histórica de todas las evaluaciones realizadas.
-
----
-
-# Endpoints Disponibles
-
-## Crear Solicitud de Crédito
+## Consultar Cupones
 
 ```http
-POST /api/loans
+GET /api/coupons
 ```
 
 ---
 
-## Consultar Todos los Créditos
+## Consultar Cupón por Id
 
 ```http
-GET /api/loans
+GET /api/coupons/{id}
 ```
 
 ---
 
-## Consultar Crédito por Id
+# Datos Iniciales
 
-```http
-GET /api/loans/{id}
+El proyecto carga automáticamente varios cupones para facilitar las pruebas.
+
+## WELCOME10
+
+```text
+10% descuento
+Máximo 50000
 ```
 
 ---
 
-# Escenarios de Prueba Implementados
-
-Las pruebas unitarias cubren los siguientes casos de negocio.
-
-## Escenarios Exitosos
-
-### Crédito Aprobado con Tasa del 8%
+## INACTIVE10
 
 ```text
-Score = 850
-```
-
-Resultado esperado:
-
-```text
-APPROVED
-Interest Rate = 8%
+Cupón inactivo
 ```
 
 ---
 
-### Crédito Aprobado con Tasa del 10%
+## EXPIRED10
 
 ```text
-Score = 750
-```
-
-Resultado esperado:
-
-```text
-APPROVED
-Interest Rate = 10%
+Cupón vencido
 ```
 
 ---
 
-### Crédito Aprobado con Tasa del 12%
+## FIXED50
 
 ```text
-Score = 650
-```
-
-Resultado esperado:
-
-```text
-APPROVED
-Interest Rate = 12%
+Descuento fijo de 50000
 ```
 
 ---
 
-## Escenarios de Rechazo
-
-### Cliente Menor de Edad
+## TOP20
 
 ```text
-Age < 18
-```
-
-Resultado esperado:
-
-```text
-REJECTED
-Customer must be at least 18 years old
+20% descuento
+Tope máximo 30000
 ```
 
 ---
 
-### Score Crediticio Insuficiente
+# Pruebas Unitarias
 
-```text
-Credit Score < 600
-```
+Se implementan pruebas para todos los escenarios principales.
 
-Resultado esperado:
+## ApplyCouponUseCase
 
-```text
-REJECTED
-Credit score must be at least 600
-```
+### Escenarios Exitosos
 
----
+✅ Aplicar cupón porcentual
 
-### Endeudamiento Superior al 40%
+✅ Aplicar cupón fijo
 
-Resultado esperado:
-
-```text
-REJECTED
-Debt ratio exceeds 40%
-```
+✅ Aplicar cupón con tope máximo
 
 ---
 
-### Monto Solicitado Superior al Permitido
+### Escenarios de Error
 
-Resultado esperado:
+✅ Cupón inexistente
 
-```text
-REJECTED
-Requested amount exceeds allowed limit
-```
+✅ Cupón inactivo
+
+✅ Cupón vencido
+
+✅ Compra mínima insuficiente
+
+✅ Categoría inválida
+
+✅ Límite de uso alcanzado
 
 ---
 
-# Pruebas de API
+## GetCouponsUseCase
 
-Además de las pruebas unitarias, el proyecto incluye escenarios de validación mediante Postman para demostrar:
+✅ Obtener todos los cupones
 
-- Consumo de endpoints.
-- Validación automática de respuestas.
-- Ejecución de colecciones.
-- Verificación de códigos HTTP.
-- Validación de estructuras JSON.
+---
+
+## GetCouponsByIdUseCase
+
+✅ Cupón encontrado
+
+✅ Cupón inexistente
 
 ---
 
 # Cobertura de Código
 
-La cobertura del proyecto puede ser analizada utilizando JaCoCo.
+La cobertura puede generarse mediante:
 
-El objetivo es validar que todas las ramas del caso de uso principal sean ejecutadas mediante pruebas automatizadas.
-
-Especial interés se tiene en:
-
-- Condiciones de aprobación.
-- Condiciones de rechazo.
-- Asignación de tasas.
-- Persistencia de resultados.
-
----
-
-# Tecnologías Utilizadas
-
-- Java 17
-- Spring Boot
-- Spring Data JPA
-- Lombok
-- H2 Database / PostgreSQL
-- JUnit 5
-- Mockito
-- JaCoCo
-- Gradle
-- Postman
-
----
-
-# Alcance del Taller
-
-El enfoque principal del ejercicio es la construcción de pruebas unitarias sobre reglas de negocio.
-
-Incluye:
-
-✅ Casos de uso  
-✅ Persistencia de datos  
-✅ API REST  
-✅ Mockito  
-✅ JUnit 5  
-✅ Cobertura de código  
-✅ Arquitectura Limpia
-
-No incluye:
-
-❌ Seguridad (JWT, OAuth)  
-❌ Docker  
-❌ Kubernetes  
-❌ Integraciones externas reales  
-❌ Mensajería  
-❌ Pruebas E2E
-
----
-
-# Conclusión
-
-Este ejercicio permite comprender de forma práctica cómo aplicar pruebas unitarias dentro de una arquitectura empresarial basada en Clean Architecture. El estudiante aprende a aislar dependencias externas mediante mocks, validar reglas de negocio complejas y medir la calidad de sus pruebas mediante métricas de cobertura, reproduciendo escenarios comunes encontrados en proyectos reales desarrollados con Spring Boot.
+```bash
+./gradlew clean test jacocoTestReport
